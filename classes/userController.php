@@ -31,7 +31,7 @@ class UserController {
 
     public function update_user(array $user)
     {
-        $sql = "UPDATE users SET FirstName = :firstname, LastName = :lastname, Email = :email WHERE UserID = :id";
+        $sql = "UPDATE users SET FirstName = :firstname, LastName = :lastname, UserName = :username, Email = :email, Phone = :phone, Address - :address WHERE UserID = :id";
         return $this->db->runSQL($sql, $user)->execute();
     }
 
@@ -46,8 +46,8 @@ class UserController {
     {
         try {
 
-            $sql = "INSERT INTO users(FirstName, LastName, Email, HashedPassword) 
-                    VALUES (:firstname, :lastname, :email, :password)"; 
+            $sql = "INSERT INTO users(FirstName, LastName, UserName, Email, HashedPassword, Phone, Address) 
+                    VALUES (:firstname, :lastname, :username, :email, :password, :phone, :address)"; 
 
             return $this->db->runSQL($sql, $user)->fetch();
 
