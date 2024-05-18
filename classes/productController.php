@@ -13,7 +13,7 @@ class ProductController {
     {
         
         $sql = "INSERT INTO products(Name, Description, Category, Price, Image)
-        VALUES (:name, :description, :category, :price, :image);";
+        VALUES (:Name, :Description, :Category, :Price, :Image);";
         $this->db->runSQL($sql, $product);
         return $this->db->lastInsertId();
     }
@@ -33,7 +33,7 @@ class ProductController {
 
     public function update_product(array $product)
     {
-        $sql = "UPDATE products SET Name = :name, Description = :description, Category = :category, Price = :price, Image = :image WHERE ProductID = :id";
+        $sql = "UPDATE products SET Name = :Name, Description = :Description, Category = :Category, Price = :Price, Image = :Image WHERE ProductID = :id";
         return $this->db->runSQL($sql, $product)->execute();
     }
 
