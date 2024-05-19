@@ -1,7 +1,7 @@
 <?php
 require_once './include/functions.php';
 
-// Check if form is submitted
+// Check if form is submitted for updating product
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Gather form data
     $product = [
@@ -15,6 +15,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Call the update_product function
     $controllers->products()->update_product($product);
     // Refresh the page after updating
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit();
+}
+
+// Check if form is submitted for deleting product
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
+    // Gather product ID to delete
+    $product_id = $_POST['product_id'];
+    // Call the delete_product function
+    $controllers->products()->delete_product($product_id);
+    // Refresh the page after deletion
     header("Location: {$_SERVER['PHP_SELF']}");
     exit();
 }
@@ -56,6 +67,11 @@ $products = $controllers->products()->get_all_products();
                         <label for="price">Price:</label><br>
                         <input type="number" id="price" name="price" value="<?= $product['Price'] ?>" step="0.01"><br><br>
                         <input type="submit" name="submit" value="Update">
+                    </form>
+                    <!-- Button to delete product -->
+                    <form method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
+                        <button type="submit" class="btn btn-danger" name="delete">Delete</button>
                     </form>
                 </div>
             </div>

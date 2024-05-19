@@ -40,7 +40,7 @@ class ProductController {
     public function delete_product(int $id)
     {
         $sql = "DELETE FROM products WHERE ProductID  = :ProductID";
-        $args = ['id' => $id];
+        $args = ['ProductID' => $id];
         return $this->db->runSQL($sql, $args)->execute();
     }
 
