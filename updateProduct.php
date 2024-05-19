@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $controllers->products()->update_product($product);
     
-    header('Location: index.php');
+    header('Location: product.php');
     exit;
 }
 ?>

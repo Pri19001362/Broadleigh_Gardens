@@ -33,7 +33,7 @@ class ProductController {
 
     public function update_product(array $product)
     {
-        $sql = "UPDATE products SET Name = :Name, Description = :Description, Category = :Category, Price = :Price, Image = :Image WHERE ProductID = :id";
+        $sql = "UPDATE products SET Name = :Name, Description = :Description, Category = :Category, Price = :Price WHERE ProductID = :id";
         return $this->db->runSQL($sql, $product)->execute();
     }
 
