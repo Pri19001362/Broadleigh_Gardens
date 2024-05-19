@@ -1,5 +1,5 @@
 <?php
-require_once './include/functions.php';
+require_once '../include/functions.php';
 
 $products = $controllers->products()->get_all_products();
 
@@ -27,8 +27,7 @@ endforeach;
 <div id="updateProductModal" class="modal" style="display:none;">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <form id="updateProductForm" method="post" action="./updateProduct.php">
-        <input type="hidden" name="ProductID" id="updateProductID">
+    <form id="updateProductForm" method="post" action="../updateProduct.php">
         <div class="form-group">
             <label for="updateName">Name</label>
             <input type="text" class="form-control" id="updateName" name="Name">
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`../getProduct.php?id=${productId}`)
             .then(response => response.json())
             .then(data => {
-                document.getElementById('updateProductID').value = data.ProductID;
+                document.getElementById('updateProductForm').dataset.productId = data.ProductID;
                 document.getElementById('updateName').value = data.Name;
                 document.getElementById('updateDescription').value = data.Description;
                 document.getElementById('updateCategory').value = data.Category;
