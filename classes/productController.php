@@ -33,13 +33,13 @@ class ProductController {
 
     public function update_product(array $product)
     {
-        $sql = "UPDATE products SET Name = :Name, Description = :Description, Category = :Category, Price = :Price WHERE ProductID = :id";
+        $sql = "UPDATE products SET Name = :Name, Description = :Description, Category = :Category, Price = :Price WHERE ProductID = :ProductID";
         return $this->db->runSQL($sql, $product)->execute();
     }
 
     public function delete_product(int $id)
     {
-        $sql = "DELETE FROM products WHERE ProductID  = :id";
+        $sql = "DELETE FROM products WHERE ProductID  = :ProductID";
         $args = ['id' => $id];
         return $this->db->runSQL($sql, $args)->execute();
     }

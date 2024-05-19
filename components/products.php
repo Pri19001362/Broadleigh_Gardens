@@ -1,92 +1,77 @@
 <?php
-require_once '../include/functions.php';
+require_once './include/functions.php';
 
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    // Gather form data
+    $product = [
+        'ProductID' => $_POST['product_id'],
+        'Name' => $_POST['name'],
+        'Description' => $_POST['description'],
+        'Category' => $_POST['category'],
+        'Price' => $_POST['price']
+    ];
+
+    // Call the update_product function
+    $controllers->products()->update_product($product);
+    // Refresh the page after updating
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit();
+}
+
+// Fetch all products
 $products = $controllers->products()->get_all_products();
-
-foreach ($products as $product):
 ?>
-    <div class="col-4">
-        <div class="card">
-            <img src="<?= $product['Image'] ?>" 
-                class="card-img-top" 
-                alt="image of <?= $product['Description'] ?>">
-            <div class="card-body">
-                <h5 class="card-title"><?= $product['Name'] ?></h5>
-                <p class="card-text"><?= $product['Description'] ?></p>
-                <p class="card-text"><?= $product['Category'] ?></p>
-                <p class="card-text"><?= $product['Price'] ?></p>
-                <button class="btn btn-primary" onclick="showUpdateForm(<?= $product['ProductID'] ?>)">Update</button>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+<body>
+    <?php foreach ($products as $product): ?>
+        <div class="col-4">
+            <div class="card">
+                <img src="<?= $product['Image'] ?>" 
+                    class="card-img-top" 
+                    alt="image of <?= $product['Description'] ?>">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $product['Name'] ?></h5>
+                    <p class="card-text"><?= $product['Description'] ?></p>
+                    <p class="card-text"><?= $product['Category'] ?></p>
+                    <p class="card-text"><?= $product['Price'] ?></p>
+                    <!-- Button to toggle update form -->
+                    <button class="btn btn-primary" onclick="toggleForm(<?= $product['ProductID'] ?>)">Update</button>
+                    <!-- Update form -->
+                    <form method="post" id="form_<?= $product['ProductID'] ?>" style="display: none;">
+                        <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
+                        <label for="name">Name:</label><br>
+                        <input type="text" id="name" name="name" value="<?= $product['Name'] ?>"><br>
+                        <label for="description">Description:</label><br>
+                        <textarea id="description" name="description"><?= $product['Description'] ?></textarea><br>
+                        <label for="category">Category:</label><br>
+                        <input type="text" id="category" name="category" value="<?= $product['Category'] ?>"><br>
+                        <label for="price">Price:</label><br>
+                        <input type="number" id="price" name="price" value="<?= $product['Price'] ?>" step="0.01"><br><br>
+                        <input type="submit" name="submit" value="Update">
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-<?php 
-endforeach;
-?>
+    <?php endforeach; ?>
 
-<!-- Update Product Modal -->
-<div id="updateProductModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form id="updateProductForm" method="post" action="../updateProduct.php">
-        <div class="form-group">
-            <label for="updateName">Name</label>
-            <input type="text" class="form-control" id="updateName" name="Name">
-        </div>
-        <div class="form-group">
-            <label for="updateDescription">Description</label>
-            <input type="text" class="form-control" id="updateDescription" name="Description">
-        </div>
-        <div class="form-group">
-            <label for="updateCategory">Category</label>
-            <input type="text" class="form-control" id="updateCategory" name="Category">
-        </div>
-        <div class="form-group">
-            <label for="updatePrice">Price</label>
-            <input type="text" class="form-control" id="updatePrice" name="Price">
-        </div>
-        <button type="submit" class="btn btn-primary">Update Product</button>
-    </form>
-  </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    function showUpdateForm(productId) {
-        var modal = document.getElementById("updateProductModal");
-        modal.style.display = "block";
-        
-        fetch(`../getProduct.php?id=${productId}`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('updateProductForm').dataset.productId = data.ProductID;
-                document.getElementById('updateName').value = data.Name;
-                document.getElementById('updateDescription').value = data.Description;
-                document.getElementById('updateCategory').value = data.Category;
-                document.getElementById('updatePrice').value = data.Price;
-            });
-    }
-
-    var span = document.getElementsByClassName("close")[0];
-
-    span.onclick = function() {
-        var modal = document.getElementById("updateProductModal");
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        var modal = document.getElementById("updateProductModal");
-        if (event.target == modal) {
-            modal.style.display = "none";
+    <script>
+        // Function to toggle update form visibility
+        function toggleForm(productId) {
+            var form = document.getElementById('form_' + productId);
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
         }
-    }
-
-    // Attach the showUpdateForm function to buttons dynamically
-    var updateButtons = document.querySelectorAll('.btn-primary');
-    updateButtons.forEach(button => {
-        button.onclick = function() {
-            var productId = button.getAttribute('data-product-id');
-            showUpdateForm(productId);
-        };
-    });
-});
-</script>
+    </script>
+</body>
+</html>
