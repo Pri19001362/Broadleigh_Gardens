@@ -31,7 +31,7 @@ class UserController {
 
     public function update_user(array $user)
     {
-        $sql = "UPDATE users SET FirstName = :FirstName, LastName = :LastName, UserName = :UserName, Email = :Email, Phone = :Phone, Address - :Address WHERE UserID = :id";
+        $sql = "UPDATE users SET FirstName = :FirstName, LastName = :LastName, UserName = :UserName, Email = :Email, Phone = :Phone, Address = :Address WHERE UserID = :id";
         return $this->db->runSQL($sql, $user)->execute();
     }
 
