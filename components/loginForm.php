@@ -16,22 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $valid = $email['valid'] && $password['valid'];
 
     if ($valid) {
-        $user = $controllers->users()->login_user($email['value'], $password['value']);
-
-        if (!$user) {
-            $message = "User details are incorrect.";
-        } else {
-            $_SESSION['user'] = $user;
-            if ($user['Is_Admin']) {
-                $_SESSION['role'] = 'admin';
-            } else {
-                $_SESSION['role'] = 'customer';
-            }
-            redirect('user');
-        }
-    } else {
-        $message =  "Please fix the above errors.";
-    }
+      $user = $controllers->users()->login_user($email['value'], $password['value']);
+  
+      if (!$user) {
+          $message = "User details are incorrect.";
+      } else {
+          $_SESSION['user'] = $user;
+          $_SESSION['role'] = $user['Is_Admin'] ? 'admin' : 'customer';
+          redirect('user');
+      }
+  } else {
+      $message =  "Please fix the above errors.";
+  }
 }
 ?>
 

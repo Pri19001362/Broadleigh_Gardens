@@ -8,6 +8,11 @@ if (!isset($_SESSION['user'])) {
     redirect('login', ["error" => "You need to be logged in to view this page"]);
 }
 
+// Ensure role is set in session
+if (!isset($_SESSION['role'])) {
+    $_SESSION['role'] = $_SESSION['user']['Is_Admin'] ? 'admin' : 'customer';
+}
+
 // Fetch the logged-in user's data
 $user = $controllers->users()->get_user_by_id($_SESSION['user']['UserID']);
 
