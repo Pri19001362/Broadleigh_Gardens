@@ -16,6 +16,7 @@
     <a class="navbar-brand" href="./login.php">Login</a>
     <a class="navbar-brand" href="./product.php">Shop</a> 
     <a class="navbar-brand" href="./admin.php">Admin</a> 
+    <a class="navbar-brand" href="./addProduct.php">Add Product</a> 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
