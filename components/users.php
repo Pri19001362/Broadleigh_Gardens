@@ -35,17 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     header("Location: {$_SERVER['PHP_SELF']}");
     exit();
 }
-
-// Check if form is submitted for deleting user
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
-    // Gather user ID to delete
-    $user_id = $_POST['user_id'];
-    // Call the delete_user function
-    $controllers->users()->delete_user($user_id);
-    // Refresh the page after deletion
-    header("Location: {$_SERVER['PHP_SELF']}");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -91,11 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
                             <label for="address">Address:</label><br>
                             <input type="text" id="address" name="address" value="<?= $user['Address'] ?>"><br><br>
                             <input type="submit" name="submit" value="Update">
-                        </form>
-                        <!-- Button to delete user -->
-                        <form method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
-                            <input type="hidden" name="user_id" value="<?= $user['UserID'] ?>">
-                            <button type="submit" class="btn btn-danger" name="delete">Delete Account</button>
                         </form>
                     </div>
                 </div>
