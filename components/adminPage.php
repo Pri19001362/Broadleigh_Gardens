@@ -141,6 +141,10 @@ endforeach; ?>
             <div class="card mb-4">
                 <div class="card-body">
                     <h2>Product Details</h2>
+                    <img src="<?= $product['Image'] ?>" 
+                    class="card-img-top" 
+                    alt="image of <?= $product['Description'] ?>">
+                    <div class="card-body">
                     <h5 class="card-title"><?= $product['Name'] ?></h5>
                     <p class="card-text"><?= $product['Description'] ?></p>
                     <p class="card-text"><?= $product['Category'] ?></p>
