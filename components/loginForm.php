@@ -1,12 +1,4 @@
 <?php
-// Start session if not already started
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Clear any previous session data
-session_unset();
-
 require_once './include/functions.php';
 
 $message = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : '';

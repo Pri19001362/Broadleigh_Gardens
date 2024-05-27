@@ -1,5 +1,4 @@
 <?php
-
 class UserController {
 
     protected $db;
@@ -61,19 +60,16 @@ class UserController {
     }   
 
     public function login_user(string $email, string $password)
-{
-    $user = $this->get_user_by_email($email);
+    {
+        $user = $this->get_user_by_email($email);
 
-    if ($user) {
-        $auth = password_verify($password, $user['HashedPassword']);
-        if ($auth) {
-            return $user;
+        if ($user) {
+            $auth = password_verify($password, $user['HashedPassword']);
+            if ($auth) {
+                return $user;
+            }
         }
+        return false;
     }
-    return false;
 }
-
-
-}
-
 ?>
