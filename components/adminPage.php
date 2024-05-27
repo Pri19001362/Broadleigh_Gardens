@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit']) && isset($_P
 }
 
 // Check if form is submitted for deleting product
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete']) && isset($_POST['product_id'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_product']) && isset($_POST['product_id'])) {
     // Gather product ID to delete
     $product_id = $_POST['product_id'];
     // Call the delete_product function
@@ -89,108 +89,112 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete']) && isset($_P
 <body>
     <h1>Users</h1>
     <div class="container mt-5">
-    <div class="row justify-content-center">
-        <?php foreach ($users as $user): ?>
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h2>User Account</h2>
-                        <h5 class="card-title"><?= $user['FirstName'] ?> <?= $user['LastName'] ?></h5>
-                        <p class="card-text"><strong>Username:</strong> <?= $user['UserName'] ?></p>
-                        <p class="card-text"><strong>Email:</strong> <?= $user['Email'] ?></p>
-                        <p class="card-text"><strong>Phone:</strong> <?= $user['Phone'] ?></p>
-                        <p class="card-text"><strong>Address:</strong> <?= $user['Address'] ?></p>
-                        <!-- Button to toggle update form -->
-                        <button class="btn btn-primary" onclick="toggleForm(<?= $user['UserID'] ?>)">Update</button>
-                        <!-- Update form -->
-                        <form method="post" id="updateForm_<?= $user['UserID'] ?>" style="display: none;">
-                            <input type="hidden" name="user_id" value="<?= $user['UserID'] ?>">
-                            <label for="first_name">First Name:</label><br>
-                            <input type="text" id="first_name" name="first_name" value="<?= $user['FirstName'] ?>"><br>
-                            <label for="last_name">Last Name:</label><br>
-                            <input type="text" id="last_name" name="last_name" value="<?= $user['LastName'] ?>"><br>
-                            <label for="user_name">Username:</label><br>
-                            <input type="text" id="user_name" name="user_name" value="<?= $user['UserName'] ?>"><br>
-                            <label for="email">Email:</label><br>
-                            <input type="email" id="email" name="email" value="<?= $user['Email'] ?>"><br>
-                            <label for="phone">Phone:</label><br>
-                            <input type="text" id="phone" name="phone" value="<?= $user['Phone'] ?>"><br>
-                            <label for="address">Address:</label><br>
-                            <input type="text" id="address" name="address" value="<?= $user['Address'] ?>"><br><br>
-                            <input type="submit" name="submit" value="Update">
-                        </form>
-                        <!-- Button to delete user -->
-                        <form method="post" onsubmit="return confirm('Are you sure you want to delete this account?');">
-                            <input type="hidden" name="user_id" value="<?= $user['UserID'] ?>">
-                            <button type="submit" class="btn btn-danger" name="delete">Delete Account</button>
-                        </form>
+        <div class="row justify-content-center">
+            <?php foreach ($users as $user): ?>
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2>User Account</h2>
+                            <h5 class="card-title"><?= $user['FirstName'] ?> <?= $user['LastName'] ?></h5>
+                            <p class="card-text"><strong>Username:</strong> <?= $user['UserName'] ?></p>
+                            <p class="card-text"><strong>Email:</strong> <?= $user['Email'] ?></p>
+                            <p class="card-text"><strong>Phone:</strong> <?= $user['Phone'] ?></p>
+                            <p class="card-text"><strong>Address:</strong> <?= $user['Address'] ?></p>
+                            <!-- Button to toggle update form -->
+                            <button class="btn btn-primary" onclick="toggleForm(<?= $user['UserID'] ?>)">Update</button>
+                            <!-- Update form -->
+                            <form method="post" id="updateForm_<?= $user['UserID'] ?>" style="display: none;">
+                                <input type="hidden" name="user_id" value="<?= $user['UserID'] ?>">
+                                <label for="first_name">First Name:</label><br>
+                                <input type="text" id="first_name" name="first_name" value="<?= $user['FirstName'] ?>"><br>
+                                <label for="last_name">Last Name:</label><br>
+                                <input type="text" id="last_name" name="last_name" value="<?= $user['LastName'] ?>"><br>
+                                <label for="user_name">Username:</label><br>
+                                <input type="text" id="user_name" name="user_name" value="<?= $user['UserName'] ?>"><br>
+                                <label for="email">Email:</label><br>
+                                <input type="email" id="email" name="email" value="<?= $user['Email'] ?>"><br>
+                                <label for="phone">Phone:</label><br>
+                                <input type="text" id="phone" name="phone" value="<?= $user['Phone'] ?>"><br>
+                                <label for="address">Address:</label><br>
+                                <input type="text" id="address" name="address" value="<?= $user['Address'] ?>"><br><br>
+                                <input type="submit" name="submit" value="Update">
+                            </form>
+                            <!-- Button to delete user -->
+                            <form method="post" onsubmit="return confirm('Are you sure you want to delete this account?');">
+                                <input type="hidden" name="user_id" value="<?= $user['UserID'] ?>">
+                                <button type="submit" class="btn btn-danger" name="delete">Delete Account</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-    </div>
-
-
-    <h1>Products</h1>
-    <div class="container mt-5">
-    <div class="row justify-content-center">
-        <?php foreach ($products as $product): ?>
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h2>Product Details</h2>
-                        <h5 class="card-title"><?= $product['Name'] ?></h5>
-                        <p class="card-text"><?= $product['Description'] ?></p>
-                        <p class="card-text"><?= $product['Category'] ?></p>
-                        <p class="card-text"><?= $product['Price'] ?></p>
-                        <!-- Button to toggle update form -->
-                        <button class="btn btn-primary" onclick="toggleForm(<?= $product['ProductID'] ?>)">Update</button>
-                        <!-- Button to delete product -->
-                        <button class="btn btn-danger" onclick="confirmDelete(<?= $product['ProductID'] ?>)">Delete</button>
-                        <!-- Update form -->
-                        <form method="post" id="form_<?= $product['ProductID'] ?>" style="display: none;">
-                            <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
-                            <label for="name">Name:</label><br>
-                            <input type="text" id="name" name="name" value="<?= $product['Name'] ?>"><br>
-                            <!-- Add other input fields for updating product information -->
-                            <input type="submit" name="submit" value="Update">
-                        </form>
-                        <!-- Delete product form -->
-                        <form id="deleteForm_product_<?= $product['ProductID'] ?>" method="post" action="">
-                            <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
-                            <!-- Add other hidden fields if needed -->
-                        </form>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
+            <?php
+endforeach; ?>
 </div>
+</div>
+
+
+<h1>Products</h1>
+<div class="container mt-5">
+<div class="row justify-content-center">
+    <?php foreach ($products as $product): ?>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2>Product Details</h2>
+                    <h5 class="card-title"><?= $product['Name'] ?></h5>
+                    <p class="card-text"><?= $product['Description'] ?></p>
+                    <p class="card-text"><?= $product['Category'] ?></p>
+                    <p class="card-text"><?= $product['Price'] ?></p>
+                    <!-- Button to toggle update form for products -->
+                    <button class="btn btn-primary" onclick="toggleProductForm(<?= $product['ProductID'] ?>)">Update</button>
+
+                    <!-- Update form for products -->
+                    <form method="post" id="productForm_<?= $product['ProductID'] ?>" style="display: none;">
+                        <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
+                        <label for="name">Name:</label><br>
+                        <input type="text" id="name" name="name" value="<?= $product['Name'] ?>"><br>
+                        <label for="description">Description:</label><br>
+                        <textarea id="description" name="description"><?= $product['Description'] ?></textarea><br>
+                        <label for="category">Category:</label><br>
+                        <input type="text" id="category" name="category" value="<?= $product['Category'] ?>"><br>
+                        <label for="price">Price:</label><br>
+                        <input type="number" id="price" name="price" value="<?= $product['Price'] ?>" step="0.01"><br><br>
+                        <input type="submit" name="submit" value="Update">
+                    </form>
+
+                    <!-- Button to delete product -->
+                    <form method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
+                        <button type="submit" class="btn btn-danger" name="delete_product">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+</div>
+
+<script>
+// Function to toggle update form visibility for users
+function toggleForm(userId) {
+    var form = document.getElementById('updateForm_' + userId);
+    if (form.style.display === "none") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+}
+
+// Function to toggle update form visibility for products
+function toggleProductForm(productId) {
+    var form = document.getElementById('productForm_' + productId);
+    if (form.style.display === "none") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+}
+</script>
 
 </body>
 </html>
-
-<script>
-    // Function to toggle update form visibility for users and products
-    function toggleForm(id) {
-        var form = document.getElementById('updateForm_' + id);
-        if (form.style.display === "none") {
-            form.style.display = "block";
-        } else {
-            form.style.display = "none";
-        }
-    }
-
-    // Function to confirm deletion for users and products
-    function confirmDelete(id) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            // For users
-            document.getElementById('deleteForm_user_' + id).submit();
-
-            // For products
-            document.getElementById('deleteForm_product_' + id).submit();
-        }
-    }
-</script>
-
