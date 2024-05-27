@@ -1,6 +1,11 @@
 <?php
-session_start();
-session_unset(); 
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Clear any previous session data
+session_unset();
 
 require_once './include/functions.php';
 
@@ -8,26 +13,24 @@ $message = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : '';
 $email = null;
 $password = null;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-{
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = InputProcessor::processEmail($_POST['email']);
     $password = InputProcessor::processPassword($_POST['password']);
 
     $valid = $email['valid'] && $password['valid'];
 
     if ($valid) {
-      $user = $controllers->users()->login_user($email['value'], $password['value']);
-  
-      if (!$user) {
-          $message = "User details are incorrect.";
-      } else {
-          $_SESSION['user'] = $user;
-          $_SESSION['role'] = $user['Is_Admin'] ? 'admin' : 'customer';
-          redirect('user');
-      }
-  } else {
-      $message =  "Please fix the above errors.";
-  }
+        $user = $controllers->users()->login_user($email['value'], $password['value']);
+
+        if (!$user) {
+            $message = "User details are incorrect.";
+        } else {
+            $_SESSION['user'] = $user;
+            redirect('user');
+        }
+    } else {
+        $message = "Please fix the above errors. ";
+    }
 }
 ?>
 
