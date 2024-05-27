@@ -16,22 +16,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $valid = $email['valid'] && $password['valid'];
 
     if ($valid) {
-  
-      $user = $controllers->users()->login_user($email['value'], $password['value']);
+        $user = $controllers->users()->login_user($email['value'], $password['value']);
 
-      if (!$user) {
-        $message = "User details are incorrect.";
-     } else {
-         $_SESSION['user'] = $user; 
-         redirect('user');
-      }
-
+        if (!$user) {
+            $message = "User details are incorrect.";
+        } else {
+            $_SESSION['user'] = $user;
+            if ($user['Is_Admin']) {
+                $_SESSION['role'] = 'admin';
+            } else {
+                $_SESSION['role'] = 'customer';
+            }
+            redirect('user');
+        }
+    } else {
+        $message =  "Please fix the above errors.";
     }
-    else {
-       $message =  "Please fix the above errors. ";
-   }
-
-} 
+}
 ?>
 
 <form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>">
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 </div>
   
               <button class="btn btn-primary btn-lg w-100 mb-4" type="submit">Login</button>
-              <a class="btn btn-secondary btn-lg w-100" type="submit" href="./register.php" >Not got an account?</a>
+              <a class="btn btn-secondary btn-lg w-100" type="submit" href="./register.php">Not got an account?</a>
               
               <?php if ($message): ?>
                 <div class="alert alert-danger mt-4" role="alert">
