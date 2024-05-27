@@ -56,6 +56,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete'])) {
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
+                        <!-- Display welcome message based on user role -->
+                        <?php if ($_SESSION['role'] === 'admin'): ?>
+                            <h2>Welcome Admin</h2>
+                        <?php else: ?>
+                            <h2>Welcome to your account</h2>
+                        <?php endif; ?>
+
                         <h5 class="card-title"><?= $user['FirstName'] ?> <?= $user['LastName'] ?></h5>
                         <p class="card-text"><strong>Username:</strong> <?= $user['UserName'] ?></p>
                         <p class="card-text"><strong>Email:</strong> <?= $user['Email'] ?></p>
