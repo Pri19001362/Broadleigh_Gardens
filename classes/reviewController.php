@@ -23,6 +23,13 @@ class ReviewController {
         return $this->db->runSQL($sql, $args)->fetch();
     }
 
+    public function get_reviews_by_user_id(int $user_id)
+    {
+        $sql = "SELECT * FROM reviews WHERE UserID = :user_id";
+        $args = ['user_id' => $user_id];
+        return $this->db->runSQL($sql, $args)->fetchAll();
+    }
+
     public function get_all_reviews()
     {
         $sql = "SELECT * FROM reviews";
@@ -42,5 +49,6 @@ class ReviewController {
         return $this->db->runSQL($sql, $args)->execute();
     }
 }
+
 
 ?>
