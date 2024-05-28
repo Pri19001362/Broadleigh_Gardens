@@ -18,8 +18,8 @@ $users = $controllers->users()->get_all_users();
 // Fetch all products
 $products = $controllers->products()->get_all_products();
 
-// Fetch all reviews
-$reviews = $controllers->reviews()->get_all_reviews();
+// Fetch all reviews with user email
+$reviews = $controllers->reviews()->get_all_reviews_with_user_email();  // Updated method call
 
 // Check if form is submitted for updating user
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit']) && isset($_POST['user_id'])) {
@@ -202,5 +202,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_product']) && i
     </script>
 </body>
 </html>
-
-
