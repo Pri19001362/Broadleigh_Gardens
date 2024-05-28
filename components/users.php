@@ -101,16 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_review'])) {
             </div>
         </div>
     </div>
-    <div>
-        <!-- Add the review form here -->
-        <h3>Leave a Review</h3>
-        <form method="post" action="">
-            <input type="hidden" name="user_id" value="<?= $user['UserID'] ?>">
-            <label for="review">Your Review:</label><br>
-            <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
-            <input type="submit" name="submit_review" value="Submit Review">
-        </form>
-    </div>
 
     <script>
         // Function to toggle update form visibility
