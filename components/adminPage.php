@@ -82,11 +82,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_product']) && i
 }
 
 // Check if form is submitted for deleting review
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_review']) && isset($_POST['review_id'])) {
-    // Gather review ID to delete
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_review']) && isset($_POST['review_id']) && isset($_POST['user_id'])) {
+    // Gather review ID and user ID to delete
     $review_id = $_POST['review_id'];
+    $user_id = $_POST['user_id'];
     // Call the delete_review function
-    $controllers->reviews()->delete_review($review_id);
+    $controllers->reviews()->delete_review($review_id, $user_id);
     // Refresh the page after deletion
     header("Location: {$_SERVER['PHP_SELF']}");
     exit();
@@ -206,6 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_review']) && is
                                     <p class="card-text"><?= htmlspecialchars($review['Review']) ?></p>
                                     <form method="post" onsubmit="return confirm('Are you sure you want to delete this review?');">
                                         <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
+                                        <input type="hidden" name="user_id" value="<?= $review['UserID'] ?>">
                                         <button type="submit" class="btn btn-danger" name="delete_review">Delete Review</button>
                                     </form>
                                 </div>

@@ -45,7 +45,7 @@ class ReviewController {
 
     public function delete_review(int $id, int $user_id)
     {
-        $sql = "DELETE FROM reviews WHERE ReviewsID = :id AND UserID = :user_id";
+        $sql = "DELETE FROM reviews WHERE ReviewsID  = :id AND UserID = :user_id";
         $args = ['id' => $id, 'user_id' => $user_id];
         return $this->db->runSQL($sql, $args)->execute();
     }
