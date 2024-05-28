@@ -18,10 +18,15 @@ if (isset($_GET['logout'])) {
     <link href="./css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <title> <?= $title ?? 'Welcome' ?> </title>
+    <style>
+        .bg-light-green {
+            background-color: #d5ffd5; /* Light green color */
+        }
+    </style>
   </head>
-  <body class="bg-primary">
+  <body class="bg-light-green">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <nav class="navbar navbar-expand-lg bg-success">
   <div class="container-fluid">
     <a class="navbar-brand" href="./index.php">Broadleigh Gardens</a>
     <?php if (!$isLoggedIn): ?>
