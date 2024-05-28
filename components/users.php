@@ -51,6 +51,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_review'])) {
     header("Location: {$_SERVER['PHP_SELF']}");
     exit();
 }
+
+// Check if form is submitted for updating a review
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_review'])) {
+    // Gather form data
+    $updated_review = [
+        'id' => $_POST['review_id'],
+        'Review' => $_POST['review'],
+        'user_id' => $_SESSION['user']['UserID']
+    ];
+
+    // Call the update_review function
+    $controllers->reviews()->update_review($updated_review);
+    // Refresh the page after updating the review
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit();
+}
+
+// Check if form is submitted for deleting a review
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_review'])) {
+    // Gather form data
+    $review_id = $_POST['review_id'];
+    $user_id = $_SESSION['user']['UserID'];
+
+    // Call the delete_review function
+    $controllers->reviews()->delete_review($review_id, $user_id);
+    // Refresh the page after deleting the review
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +135,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_review'])) {
                         <?php if (count($reviews) > 0): ?>
                             <ul>
                                 <?php foreach ($reviews as $review): ?>
-                                    <li><?= htmlspecialchars($review['Review']) ?></li>
+                                    <li>
+                                        <?= htmlspecialchars($review['Review']) ?>
+                                        <!-- Button to toggle review update form -->
+                                        <button class="btn btn-secondary" onclick="toggleReviewForm(<?= $review['ReviewsID'] ?>)">Edit</button>
+                                        <!-- Review update form -->
+                                        <form method="post" id="updateReviewForm-<?= $review['ReviewsID'] ?>" style="display: none;">
+                                            <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
+                                            <label for="review">Edit Review:</label><br>
+                                            <textarea id="review" name="review" rows="4" cols="50"><?= htmlspecialchars($review['Review']) ?></textarea><br><br>
+                                            <input type="submit" name="update_review" value="Update Review">
+                                        </form>
+                                        <!-- Delete review form -->
+                                        <form method="post" action="" style="display:inline;">
+                                            <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
+                                            <input type="submit" name="delete_review" value="Delete" onclick="return confirm('Are you sure you want to delete this review?');">
+                                        </form>
+                                    </li>
                                 <?php endforeach; ?>
                             </ul>
                         <?php else: ?>
@@ -128,7 +173,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_review'])) {
                 form.style.display = "none";
             }
         }
+
+        // Function to toggle review update form visibility
+        function toggleReviewForm(reviewId) {
+            var form = document.getElementById('updateReviewForm-' + reviewId);
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>
+
 
