@@ -42,5 +42,25 @@ $products = $controllers->products()->get_all_products($search_query);
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
+
+    <!-- Display all products if no products are found -->
+    <?php if (empty($products)): ?>
+        <p class="text-center">Showing all products:</p>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <?php foreach ($controllers->products()->get_all_products() as $product): ?>
+                <div class="col">
+                    <div class="card">
+                        <img src="<?= $product['Image'] ?>" class="card-img-top" alt="image of <?= $product['Description'] ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $product['Name'] ?></h5>
+                            <p class="card-text"><?= $product['Description'] ?></p>
+                            <p class="card-text"><?= $product['Category'] ?></p>
+                            <p class="card-text"><?= $product['Price'] ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </body>
 </html>
