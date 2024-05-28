@@ -15,6 +15,7 @@ if (!isset($_SESSION['role'])) {
 
 // Fetch the logged-in user's data
 $user = $controllers->users()->get_user_by_id($_SESSION['user']['UserID']);
+$reviews = $controllers->reviews()->get_reviews_by_user_id($_SESSION['user']['UserID']);
 
 // Check if form is submitted for updating user
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
@@ -96,6 +97,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_review'])) {
                             <input type="text" id="address" name="address" value="<?= $user['Address'] ?>"><br><br>
                             <input type="submit" name="submit" value="Update">
                         </form>
+                    </div>
+                </div>
+                <!-- Display user reviews -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Reviews</h5>
+                        <?php if (count($reviews) > 0): ?>
+                            <ul>
+                                <?php foreach ($reviews as $review): ?>
+                                    <li><?= htmlspecialchars($review['Review']) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <p>You haven't left any reviews yet.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
