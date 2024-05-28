@@ -18,6 +18,9 @@ $users = $controllers->users()->get_all_users();
 // Fetch all products
 $products = $controllers->products()->get_all_products();
 
+// Fetch all reviews
+$reviews = $controllers->reviews()->get_all_reviews();
+
 // Check if form is submitted for updating user
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit']) && isset($_POST['user_id'])) {
     // Gather form data
@@ -84,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_product']) && i
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Admin Page</title>
 </head>
 <body>
     <h1>Users</h1>
@@ -127,78 +130,98 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_product']) && i
                         </div>
                     </div>
                 </div>
-            <?php
-endforeach; ?>
-</div>
-</div>
-
-
-<h1>Products</h1>
-<div class="container mt-5">
-<div class="row justify-content-center">
-    <?php foreach ($products as $product): ?>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2>Product Details</h2>
-                    <img src="<?= $product['Image'] ?>" 
-                    class="card-img-top" 
-                    alt="image of <?= $product['Description'] ?>">
-                    <div class="card-body">
-                    <h5 class="card-title"><?= $product['Name'] ?></h5>
-                    <p class="card-text"><?= $product['Description'] ?></p>
-                    <p class="card-text"><?= $product['Category'] ?></p>
-                    <p class="card-text"><?= $product['Price'] ?></p>
-                    <!-- Button to toggle update form for products -->
-                    <button class="btn btn-primary" onclick="toggleProductForm(<?= $product['ProductID'] ?>)">Update</button>
-
-                    <!-- Update form for products -->
-                    <form method="post" id="productForm_<?= $product['ProductID'] ?>" style="display: none;">
-                        <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
-                        <label for="name">Name:</label><br>
-                        <input type="text" id="name" name="name" value="<?= $product['Name'] ?>"><br>
-                        <label for="description">Description:</label><br>
-                        <textarea id="description" name="description"><?= $product['Description'] ?></textarea><br>
-                        <label for="category">Category:</label><br>
-                        <input type="text" id="category" name="category" value="<?= $product['Category'] ?>"><br>
-                        <label for="price">Price:</label><br>
-                        <input type="number" id="price" name="price" value="<?= $product['Price'] ?>" step="0.01"><br><br>
-                        <input type="submit" name="submit" value="Update">
-                    </form>
-
-                    <!-- Button to delete product -->
-                    <form method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                        <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
-                        <button type="submit" class="btn btn-danger" name="delete_product">Delete</button>
-                    </form>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
-    <?php endforeach; ?>
-</div>
-</div>
+    </div>
 
-<script>
-// Function to toggle update form visibility for users
-function toggleForm(userId) {
-    var form = document.getElementById('updateForm_' + userId);
-    if (form.style.display === "none") {
-        form.style.display = "block";
-    } else {
-        form.style.display = "none";
-    }
-}
+    <h1>Products</h1>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <?php foreach ($products as $product): ?>
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h2>Product Details</h2>
+                            <img src="<?= $product['Image'] ?>" class="card-img-top" alt="image of <?= $product['Description'] ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $product['Name'] ?></h5>
+                                <p class="card-text"><?= $product['Description'] ?></p>
+                                <p class="card-text"><?= $product['Category'] ?></p>
+                                <p class="card-text"><?= $product['Price'] ?></p>
+                                <!-- Button to toggle update form for products -->
+                                <button class="btn btn-primary" onclick="toggleProductForm(<?= $product['ProductID'] ?>)">Update</button>
+                                <!-- Update form for products -->
+                                <form method="post" id="productForm_<?= $product['ProductID'] ?>" style="display: none;">
+                                    <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
+                                    <label for="name">Name:</label><br>
+                                    <input type="text" id="name" name="name" value="<?= $product['Name'] ?>"><br>
+                                    <label for="description">Description:</label><br>
+                                    <textarea id="description" name="description"><?= $product['Description'] ?></textarea><br>
+                                    <label for="category">Category:</label><br>
+                                    <input type="text" id="category" name="category" value="<?= $product['Category'] ?>"><br>
+                                    <label for="price">Price:</label><br>
+                                    <input type="number" id="price" name="price" value="<?= $product['Price'] ?>" step="0.01"><br><br>
+                                    <input type="submit" name="submit" value="Update">
+                                </form>
+                                <!-- Button to delete product -->
+                                <form method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                    <input type="hidden" name="product_id" value="<?= $product['ProductID'] ?>">
+                                    <button type="submit" class="btn btn-danger" name="delete_product">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
-// Function to toggle update form visibility for products
-function toggleProductForm(productId) {
-    var form = document.getElementById('productForm_' + productId);
-    if (form.style.display === "none") {
-        form.style.display = "block";
-    } else {
-        form.style.display = "none";
-    }
-}
-</script>
+    <h1>Reviews</h1>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <?php if (count($reviews) > 0): ?>
+                <?php foreach ($reviews as $review): ?>
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h2>Review by UserID: <?= $review['UserID'] ?></h2>
+                                <p class="card-text"><?= htmlspecialchars($review['Review']) ?></p>
+                                <!-- Button to delete review -->
+                                <form method="post" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                    <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
+                                    <button type="submit" class="btn btn-danger" name="delete_review">Delete Review</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No reviews available.</p>
+            <?php endif; ?>
+        </div>
+    </div>
 
+    <script>
+        // Function to toggle update form visibility for users
+        function toggleForm(userId) {
+            var form = document.getElementById('updateForm_' + userId);
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+
+        // Function to toggle update form visibility for products
+        function toggleProductForm(productId) {
+            var form = document.getElementById('productForm_' + productId);
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
+
