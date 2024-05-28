@@ -44,6 +44,13 @@ class ProductController {
         return $this->db->runSQL($sql, $args)->execute();
     }
 
+    public function search_products(string $keyword)
+    {
+        $sql = "SELECT * FROM products WHERE Name LIKE :keyword OR Description LIKE :keyword OR Category LIKE :keyword";
+        $args = ['keyword' => "%$keyword%"];
+        return $this->db->runSQL($sql, $args)->fetchAll();
+    }
+
 }
 
 ?>
