@@ -1,8 +1,19 @@
 <?php
 require_once './include/functions.php';
 
-// Fetch all products
-$products = $controllers->products()->get_all_products();
+// Initialize products variable
+$products = [];
+
+// Check if a search query is submitted
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search'])) {
+    // Get the search query from the form
+    $search_query = $_GET['search'];
+    // Fetch products based on the search query
+    $products = $controllers->products()->search_products($search_query);
+} else {
+    // Fetch all products if no search query is provided
+    $products = $controllers->products()->get_all_products();
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +24,13 @@ $products = $controllers->products()->get_all_products();
     <title>Products</title>
 </head>
 <body>
+    <!-- Search form -->
+    <form method="GET">
+        <input type="text" name="search" placeholder="Search products">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Display products -->
     <?php foreach ($products as $product): ?>
         <div class="col-4">
             <div class="card">
