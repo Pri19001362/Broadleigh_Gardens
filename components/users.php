@@ -133,23 +133,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_review'])) {
                     <div class="card-body">
                         <h5 class="card-title">Your Reviews</h5>
                         <?php if (count($reviews) > 0): ?>
-                            <ul>
+                            <ul class="list-group list-group-flush">
                                 <?php foreach ($reviews as $review): ?>
-                                    <li>
-                                        <?= htmlspecialchars($review['Review']) ?>
-                                        <!-- Button to toggle review update form -->
-                                        <button class="btn btn-secondary" onclick="toggleReviewForm(<?= $review['ReviewsID'] ?>)">Edit</button>
-                                        <!-- Review update form -->
-                                        <form method="post" id="updateReviewForm-<?= $review['ReviewsID'] ?>" style="display: none;">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div class="review-text">
+                                            <?= htmlspecialchars($review['Review']) ?>
+                                        </div>
+                                        <div class="review-actions">
+                                            <!-- Button to toggle review update form -->
+                                            <button class="btn btn-secondary btn-sm" onclick="toggleReviewForm(<?= $review['ReviewsID'] ?>)">Edit</button>
+                                            <!-- Delete review form -->
+                                            <form method="post" action="" style="display:inline;">
+                                                <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
+                                                <button type="submit" name="delete_review" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this review?');">Delete</button>
+                                            </form>
+                                        </div>
+                                    </li>
+                                    <!-- Review update form -->
+                                    <li class="list-group-item review-update-form" id="updateReviewForm-<?= $review['ReviewsID'] ?>" style="display: none;">
+                                        <form method="post">
                                             <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
-                                            <label for="review">Edit Review:</label><br>
-                                            <textarea id="review" name="review" rows="4" cols="50"><?= htmlspecialchars($review['Review']) ?></textarea><br><br>
-                                            <input type="submit" name="update_review" value="Update Review">
-                                        </form>
-                                        <!-- Delete review form -->
-                                        <form method="post" action="" style="display:inline;">
-                                            <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
-                                            <input type="submit" name="delete_review" value="Delete" onclick="return confirm('Are you sure you want to delete this review?');">
+                                            <div class="form-group">
+                                                <label for="review">Edit Review:</label>
+                                                <textarea class="form-control" id="review" name="review" rows="4" cols="50"><?= htmlspecialchars($review['Review']) ?></textarea>
+                                            </div>
+                                            <div class="form-group text-end">
+                                                <button type="submit" name="update_review" class="btn btn-primary btn-sm">Update Review</button>
+                                            </div>
                                         </form>
                                     </li>
                                 <?php endforeach; ?>

@@ -29,33 +29,49 @@ if (isset($_GET['logout'])) {
   <nav class="navbar navbar-expand-lg bg-success">
   <div class="container-fluid">
     <a class="navbar-brand" href="./index.php">Broadleigh Gardens</a>
-    <?php if (!$isLoggedIn): ?>
-      <a class="navbar-brand" href="./register.php">Register</a>
-      <a class="navbar-brand" href="./login.php">Login</a>
-    <?php endif; ?>
-    <a class="navbar-brand" href="./product.php">Shop</a> 
-    <a class="navbar-brand" href="./review.php">Review</a> 
-    <?php if ($isAdmin): ?>
-      <a class="navbar-brand" href="./admin.php">Admin</a> 
-      <a class="navbar-brand" href="./addProduct.php">Add Product</a> 
-    <?php endif; ?>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <?php if ($isLoggedIn): ?>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <?php if (!$isLoggedIn): ?>
           <li class="nav-item">
-            <a class="nav-link" href="./user.php"><i class="bi bi-person-circle" style="font-size: 2rem"></i></a>
+            <a class="navbar-brand" href="./register.php">Register</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="?logout=true">Logout</a>
+            <a class="navbar-brand" href="./login.php">Login</a>
+          </li>
+        <?php endif; ?>
+        <li class="nav-item">
+          <a class="navbar-brand" href="./product.php">Shop</a> 
+        </li>
+        <li class="nav-item">
+          <a class="navbar-brand" href="./review.php">Review</a> 
+        </li>
+        <?php if ($isAdmin): ?>
+          <li class="nav-item">
+            <a class="navbar-brand" href="./admin.php">Admin</a> 
+          </li>
+          <li class="nav-item">
+            <a class="navbar-brand" href="./addProduct.php">Add Product</a> 
+          </li>
+        <?php endif; ?>
+        <?php if ($isLoggedIn): ?>
+          <li class="nav-item">
+            <a class="navbar-brand" href="?logout=true">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="navbar-brand" href="./user.php"><i class="bi bi-person-circle" style="font-size: 2rem"></i></a>
           </li>
         <?php endif; ?>
       </ul>
     </div>
   </div>
-  </nav>
+</nav>
+
+
+
+
 
   </body>
 </html>
