@@ -29,6 +29,7 @@ if (isset($_GET['logout'])) {
       <a class="navbar-brand" href="./login.php">Login</a>
     <?php endif; ?>
     <a class="navbar-brand" href="./product.php">Shop</a> 
+    <a class="navbar-brand" href="./review.php">Review</a> 
     <?php if ($isAdmin): ?>
       <a class="navbar-brand" href="./admin.php">Admin</a> 
       <a class="navbar-brand" href="./addProduct.php">Add Product</a> 

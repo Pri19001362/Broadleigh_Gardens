@@ -35,6 +35,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     header("Location: {$_SERVER['PHP_SELF']}");
     exit();
 }
+
+// Check if form is submitted for leaving a review
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_review'])) {
+    // Gather form data
+    $review_data = [
+        'UserID' => $_POST['user_id'],
+        'Review' => $_POST['review']
+    ];
+
+    // Call the create_review function
+    $controllers->reviews()->create_review($review_data);
+    // Refresh the page after submitting the review
+    header("Location: {$_SERVER['PHP_SELF']}");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,18 +60,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <title>User Profile</title>
 </head>
 <body>
+    <!-- Display welcome message based on user role -->
+    <?php if ($_SESSION['role'] === 'admin'): ?>
+        <h2>Welcome Admin</h2>
+    <?php else: ?>
+        <h2>Welcome to your account</h2>
+    <?php endif; ?>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <!-- Display welcome message based on user role -->
-                        <?php if ($_SESSION['role'] === 'admin'): ?>
-                            <h2>Welcome Admin</h2>
-                        <?php else: ?>
-                            <h2>Welcome to your account</h2>
-                        <?php endif; ?>
-
                         <h5 class="card-title"><?= $user['FirstName'] ?> <?= $user['LastName'] ?></h5>
                         <p class="card-text"><strong>Username:</strong> <?= $user['UserName'] ?></p>
                         <p class="card-text"><strong>Email:</strong> <?= $user['Email'] ?></p>
@@ -86,6 +101,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             </div>
         </div>
     </div>
+    <div>
+        <!-- Add the review form here -->
+        <h3>Leave a Review</h3>
+        <form method="post" action="">
+            <input type="hidden" name="user_id" value="<?= $user['UserID'] ?>">
+            <label for="review">Your Review:</label><br>
+            <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+            <input type="submit" name="submit_review" value="Submit Review">
+        </form>
+    </div>
 
     <script>
         // Function to toggle update form visibility
@@ -100,3 +125,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     </script>
 </body>
 </html>
+

@@ -11,9 +11,7 @@ class ReviewController {
 
     public function create_review(array $review) 
     {
-        
-        $sql = "INSERT INTO reviews(Review)
-        VALUES (:review);";
+        $sql = "INSERT INTO reviews (UserID, Review) VALUES (:UserID, :Review)";
         $this->db->runSQL($sql, $review);
         return $this->db->lastInsertId();
     }
@@ -25,7 +23,7 @@ class ReviewController {
         return $this->db->runSQL($sql, $args)->fetch();
     }
 
-    public function get_all_review()
+    public function get_all_reviews()
     {
         $sql = "SELECT * FROM reviews";
         return $this->db->runSQL($sql)->fetchAll();
@@ -33,7 +31,7 @@ class ReviewController {
 
     public function update_review(array $review)
     {
-        $sql = "UPDATE reviews SET Review = :review WHERE ReviewsID = :id";
+        $sql = "UPDATE reviews SET Review = :Review WHERE ReviewsID = :id";
         return $this->db->runSQL($sql, $review)->execute();
     }
 
@@ -43,7 +41,6 @@ class ReviewController {
         $args = ['id' => $id];
         return $this->db->runSQL($sql, $args)->execute();
     }
-
 }
 
 ?>
