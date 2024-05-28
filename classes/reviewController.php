@@ -38,14 +38,14 @@ class ReviewController {
 
     public function update_review(array $review)
     {
-        $sql = "UPDATE reviews SET Review = :Review WHERE ReviewsID = :id";
+        $sql = "UPDATE reviews SET Review = :Review WHERE ReviewsID = :id AND UserID = :user_id";
         return $this->db->runSQL($sql, $review)->execute();
     }
 
-    public function delete_review(int $id)
+    public function delete_review(int $id, int $user_id)
     {
-        $sql = "DELETE FROM reviews WHERE ReviewsID  = :id";
-        $args = ['id' => $id];
+        $sql = "DELETE FROM reviews WHERE ReviewsID  = :id AND UserID = :user_id";
+        $args = ['id' => $id, 'user_id' => $user_id];
         return $this->db->runSQL($sql, $args)->execute();
     }
 }
