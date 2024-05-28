@@ -183,24 +183,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_review']) && is
 
     <h1>Reviews</h1>
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <?php foreach ($reviews as $review): ?>
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2>Review Details</h2>
-                            <h5 class="card-title"><?= htmlspecialchars($review['Email']) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($review['Review']) ?></p>
-                            <form method="post" onsubmit="return confirm('Are you sure you want to delete this review?');">
-                                <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
-                                <button type="submit" class="btn btn-danger" name="delete_review">Delete Review</button>
-                            </form>
-                        </div>
+    <?php
+    // Group reviews by email
+    $grouped_reviews = [];
+    foreach ($reviews as $review) {
+        $email = $review['Email'];
+        if (!isset($grouped_reviews[$email])) {
+            $grouped_reviews[$email] = [];
+        }
+        $grouped_reviews[$email][] = $review;
+    }
+    ?>
+    <div class="row justify-content-center">
+        <?php foreach ($grouped_reviews as $email => $reviews_by_email): ?>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2>Reviews by <?= htmlspecialchars($email) ?></h2>
+                        <?php foreach ($reviews_by_email as $review): ?>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <p class="card-text"><?= htmlspecialchars($review['Review']) ?></p>
+                                    <form method="post" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                        <input type="hidden" name="review_id" value="<?= $review['ReviewsID'] ?>">
+                                        <button type="submit" class="btn btn-danger" name="delete_review">Delete Review</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     </div>
+</div>
 
     <script>
     // Function to toggle update form visibility for users
