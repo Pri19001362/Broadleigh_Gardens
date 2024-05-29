@@ -45,9 +45,11 @@ if (isset($_GET['logout'])) {
         <li class="nav-item">
           <a class="navbar-brand" href="./product.php">Shop</a> 
         </li>
-        <li class="nav-item">
-          <a class="navbar-brand" href="./review.php">Review</a> 
-        </li>
+        <?php if ($isLoggedIn): ?>
+          <li class="nav-item">
+            <a class="navbar-brand" href="./review.php">Review</a>
+          </li>
+        <?php endif; ?>
         <?php if ($isAdmin): ?>
           <li class="nav-item">
             <a class="navbar-brand" href="./admin.php">Admin</a> 
@@ -68,10 +70,6 @@ if (isset($_GET['logout'])) {
     </div>
   </div>
 </nav>
-
-
-
-
 
   </body>
 </html>
