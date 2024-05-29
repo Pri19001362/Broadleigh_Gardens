@@ -1,5 +1,8 @@
 <?php
+// Include header
 require __DIR__ . "/include/header.php";
+
+// Check if user is an admin or logged in
 $isAdmin = isset($_SESSION['user']) && $_SESSION['user']['Is_Admin'];
 $isLoggedIn = isset($_SESSION['user']);
 ?>
@@ -8,6 +11,7 @@ $isLoggedIn = isset($_SESSION['user']);
     <div class="container py-5 h-75">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <?php if (!$isLoggedIn): ?>
+                <!-- Register card -->
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -17,6 +21,7 @@ $isLoggedIn = isset($_SESSION['user']);
                         </div>
                     </div>
                 </div>
+                <!-- Login card -->
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -27,6 +32,7 @@ $isLoggedIn = isset($_SESSION['user']);
                     </div>
                 </div>
             <?php endif; ?>
+            <!-- Shop card -->
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
@@ -37,6 +43,7 @@ $isLoggedIn = isset($_SESSION['user']);
                 </div>
             </div>
             <?php if ($isLoggedIn): ?>
+                <!-- Review card -->
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -48,6 +55,7 @@ $isLoggedIn = isset($_SESSION['user']);
                 </div>
             <?php endif; ?>
             <?php if ($isAdmin): ?>
+                <!-- Admin card -->
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -57,6 +65,7 @@ $isLoggedIn = isset($_SESSION['user']);
                         </div>
                     </div>
                 </div>
+                <!-- Add Product card -->
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -71,4 +80,7 @@ $isLoggedIn = isset($_SESSION['user']);
     </div>
 </section>
 
-<?php require __DIR__ . "/include/footer.php"; ?>
+<?php 
+// Include footer
+require __DIR__ . "/include/footer.php"; 
+?>

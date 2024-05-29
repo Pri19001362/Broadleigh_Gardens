@@ -1,5 +1,17 @@
-<?php $title = 'Login Page'; require __DIR__ . "/include/header.php"; ?>
-     
-<?php require __DIR__ . "/components/loginForm.php"; ?>
+<?php 
+// Set the page title
+$title = 'Login Page';
 
-<?php require __DIR__ . "/include/footer.php"; ?>
+// Include header
+require __DIR__ . "/include/header.php"; 
+?>
+     
+<?php 
+// Include login form component
+require __DIR__ . "/components/loginForm.php"; 
+?>
+
+<?php 
+// Include footer
+require __DIR__ . "/include/footer.php"; 
+?>
