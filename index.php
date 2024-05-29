@@ -1,8 +1,32 @@
-<?php require __DIR__ . "/include/header.php"; ?>
+<?php
+require __DIR__ . "/include/header.php";
+$isAdmin = isset($_SESSION['user']) && $_SESSION['user']['Is_Admin'];
+$isLoggedIn = isset($_SESSION['user']);
+?>
 
 <section class="vh-100 text-center">
     <div class="container py-5 h-75">
         <div class="row d-flex justify-content-center align-items-center h-100">
+            <?php if (!$isLoggedIn): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Register</h5>
+                            <p class="card-text">Create a new account to get started</p>
+                            <a href="./register.php" class="btn btn-primary">Register</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Login</h5>
+                            <p class="card-text">Login to access your account</p>
+                            <a href="./login.php" class="btn btn-primary">Login</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
@@ -12,15 +36,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Review</h5>
-                        <p class="card-text">Leave a review for your favorite products</p>
-                        <a href="./review.php" class="btn btn-primary">Leave a Review</a>
+            <?php if ($isLoggedIn): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Review</h5>
+                            <p class="card-text">Leave a review for your favorite products</p>
+                            <a href="./review.php" class="btn btn-primary">Leave a Review</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php endif; ?>
             <?php if ($isAdmin): ?>
                 <div class="col-md-4 mb-4">
                     <div class="card">
