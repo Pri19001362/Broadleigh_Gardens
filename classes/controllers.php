@@ -2,6 +2,7 @@
 
 class Controllers {
 
+    // Properties to hold instances of database and other controllers
     protected $db = null;
     protected $users = null;
     protected $products = null;
@@ -9,30 +10,32 @@ class Controllers {
 
     public function __construct()
     {
-        //----Database----//
-
-        $type ='mysql';
+        // Database configuration
+        $type = 'mysql';
         $server = '127.0.0.1';
         $db = 'broadleighgardens';
         $port = '3306';
         $charset = 'latin1';
 
+        // Database credentials
         $username = 'root';
         $password = '';
     
-         //----Database----//
-
+        // Data Source Name (DSN) for database connection
         $dsn = "$type:host=$server;dbname=$db;port=$port;charset=$charset";
     
         try {
+            // Initialize the database connection
             $this->db = new DatabaseController($dsn, $username, $password); 
         }
         catch (PDOException $e) {
-            throw new PDOException($e -> getMessage(), $e -> getCode());
+            // Handle potential database connection errors
+            throw new PDOException($e->getMessage(), $e->getCode());
             echo $e;
         }
     }
 
+    // Method to get an instance of UserController
     public function users()
     {
         if ($this->users === null) {
@@ -41,6 +44,7 @@ class Controllers {
         return $this->users;
     }
 
+    // Method to get an instance of ProductController
     public function products()
     {
         if ($this->products === null) {
@@ -48,6 +52,8 @@ class Controllers {
         }
         return $this->products;
     }
+
+    // Method to get an instance of ReviewController
     public function reviews()
     {
         if ($this->reviews === null) {
@@ -56,3 +62,4 @@ class Controllers {
         return $this->reviews;
     }
 }
+?>
